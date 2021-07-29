@@ -37,6 +37,11 @@ NOTE: If you would like to run the Login step without as a standalone step pleas
             <codes>200</codes>
           </con:configuration>
         </con:assertion>
+        <con:assertion type="Response SLA Assertion" id="e2727ced-2a71-40d5-9800-cb2a910cb4c2" name="Response SLA">
+          <con:configuration>
+            <SLA>200</SLA>
+          </con:configuration>
+        </con:assertion>
         <con:credentials>
           <con:selectedAuthProfile>Inherit From Parent</con:selectedAuthProfile>
           <con:authType>No Authorization</con:authType>
