@@ -1,0 +1,575 @@
+{
+  "openapi" : "3.0.0",
+  "info" : {
+    "title" : "Sample Banking API",
+    "description" : "This is a sample banking API",
+    "version" : "1.0.1"
+  },
+  "servers" : [ {
+    "url" : "https://virtserver.swaggerhub.com/MConneely/Sample_Banking_API/1.0.0",
+    "description" : "SwaggerHub API Auto Mocking"
+  } ],
+  "tags" : [ {
+    "name" : "Transfers",
+    "description" : "."
+  }, {
+    "name" : "Beneficiaries",
+    "description" : "."
+  } ],
+  "paths" : {
+    "/accounts" : {
+      "get" : {
+        "tags" : [ "Accounts" ],
+        "summary" : "List accounts",
+        "responses" : {
+          "200" : {
+            "description" : "User's accounts",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_200"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/accounts/{id}" : {
+      "get" : {
+        "tags" : [ "Accounts" ],
+        "summary" : "Get an account",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "Account's id",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "The account",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Account"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/beneficiaries" : {
+      "get" : {
+        "tags" : [ "Beneficiaries" ],
+        "summary" : "List beneficiaries",
+        "responses" : {
+          "200" : {
+            "description" : "The beneficiaries list"
+          }
+        },
+        "security" : [ {
+          "BankingAPIScopes" : [ "beneficiary:read", "beneficiary:admin" ]
+        } ]
+      },
+      "post" : {
+        "tags" : [ "Beneficiaries" ],
+        "summary" : "Register a beneficiary",
+        "responses" : {
+          "201" : {
+            "description" : "Beneficiary added"
+          }
+        },
+        "security" : [ {
+          "BankingAPIScopes" : [ "beneficiary:create", "beneficiary:admin" ]
+        } ]
+      }
+    },
+    "/beneficiaries/{id}" : {
+      "get" : {
+        "tags" : [ "Beneficiaries" ],
+        "summary" : "Get a beneficiary",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "Beneficiary's id",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "The beneficiary"
+          }
+        },
+        "security" : [ {
+          "BankingAPIScopes" : [ "beneficiary:read", "beneficiary:admin" ]
+        } ]
+      },
+      "delete" : {
+        "tags" : [ "Beneficiaries" ],
+        "summary" : "Delete a beneficiary",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "Beneficiary's id",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "Beneficiary deleted"
+          }
+        },
+        "security" : [ {
+          "BankingAPIScopes" : [ "beneficiary:delete", "beneficiary:admin" ]
+        } ]
+      }
+    },
+    "/sources" : {
+      "get" : {
+        "tags" : [ "Transfers" ],
+        "summary" : "List transfer sources",
+        "description" : "Not all bank accounts can be used as a source\nfor a money transfers. This operation returns\nonly the accounts elligible as a money transfer\nsource.\n",
+        "responses" : {
+          "200" : {
+            "description" : "The transfer sources"
+          }
+        }
+      }
+    },
+    "/sources/{id}/destinations" : {
+      "get" : {
+        "tags" : [ "Transfers" ],
+        "summary" : "List transfer source's destinations",
+        "description" : "Depending on the source account, only specific\nbeneficiaries or accounts can be used as a money\ntransfer destination.\nThis operation returns them.\n",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "Source's id",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "The transfer destination"
+          }
+        }
+      }
+    },
+    "/transfers" : {
+      "get" : {
+        "tags" : [ "Transfers" ],
+        "summary" : "List money transfers",
+        "responses" : {
+          "200" : {
+            "description" : "Transfers list",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/TransferList"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "BankingAPIScopes" : [ "transfer:read", "transfer:admin" ]
+        } ]
+      },
+      "post" : {
+        "tags" : [ "Transfers" ],
+        "summary" : "Transfer money",
+        "description" : "This operation allows one to transfer an `amount` of money from a `source` account to a `destination` account.\nThere are three different types of money transfer:\n  - Immediate -- these are executed as soon as the request is received \n  - Delayed -- these are executed upon a given future `date`\n  - Recurring -- these are executed a given `occurrences` number of times at a given `frequency` -- the first occurrence being executed immediately or at a given `date`\n",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/TransferRequest"
+              },
+              "examples" : {
+                "immediate" : {
+                  "summary" : "Immediate transfer",
+                  "description" : "The money transfer is executed immediately",
+                  "value" : {
+                    "source" : "000534115776675",
+                    "destination" : "000567689879878",
+                    "amount" : 456.2
+                  }
+                },
+                "delayed" : {
+                  "summary" : "Delayed transfer",
+                  "description" : "The money transfer is executed at a given date",
+                  "value" : {
+                    "source" : "000534115776675",
+                    "destination" : "000567689879878",
+                    "amount" : 456.2,
+                    "date" : "2019-03-19"
+                  }
+                },
+                "recurring" : {
+                  "summary" : "Recurring transfer",
+                  "description" : "The money transfer is executed at a given date reurringly",
+                  "value" : {
+                    "source" : "000534115776675",
+                    "destination" : "000567689879878",
+                    "amount" : 456.2,
+                    "date" : "2019-03-19",
+                    "occurrences" : 1,
+                    "frequency" : "MONTHLY"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses" : {
+          "201" : {
+            "description" : "Immediate or recurring transfer executed",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/TransferResponse"
+                },
+                "examples" : {
+                  "immediate" : {
+                    "summary" : "Immediate transfer",
+                    "description" : "The money transfer is executed immediately",
+                    "value" : {
+                      "source" : "000534115776675",
+                      "destination" : "000567689879878",
+                      "amount" : 456.2
+                    }
+                  },
+                  "recurring" : {
+                    "summary" : "Recurring transfer",
+                    "description" : "The first occurence is executed immediately",
+                    "value" : {
+                      "source" : "000534115776675",
+                      "destination" : "000567689879878",
+                      "amount" : 456.2,
+                      "date" : "2019-03-19",
+                      "occurrences" : 1,
+                      "frequency" : "MONTHLY"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "202" : {
+            "description" : "Delayed or recurring delayed transfer accepted",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/TransferResponse"
+                },
+                "examples" : {
+                  "delayed" : {
+                    "summary" : "Delayed transfer",
+                    "description" : "The money transfer is executed at a given date",
+                    "value" : {
+                      "source" : "000534115776675",
+                      "destination" : "000567689879878",
+                      "amount" : 456.2,
+                      "date" : "2019-03-19"
+                    }
+                  },
+                  "recurring" : {
+                    "summary" : "Recurring transfer",
+                    "description" : "The money transfer is executed at a given date reurringly",
+                    "value" : {
+                      "source" : "000534115776675",
+                      "destination" : "000567689879878",
+                      "amount" : 456.2,
+                      "date" : "2019-03-19",
+                      "occurrences" : 1,
+                      "frequency" : "MONTHLY"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "The transfer is rejected due to an error in the request properties or an insufficient balance.\nEach error provides the property `source` of the error along with a human-readable `message` and its `type`:\n\n- MANDATORY_PROPERTY: The property indicated in `source` is missing\n- INVALID_FORMAT: The format of the property indicated in `source` is invalid\n- INVALID_VALUE: The value of the property indicated in `source` is invalid\n- INSUFFICIENT_BALANCE: The `amount` property is higher than the `source` account balance\n",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ConsumerError"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "BankingAPIScopes" : [ "transfer:create", "transfer:admin" ]
+        } ]
+      }
+    },
+    "/transfers/{id}" : {
+      "get" : {
+        "tags" : [ "Transfers" ],
+        "summary" : "Get a money transfer",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "Transfer's id",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "The money transfer"
+          },
+          "404" : {
+            "description" : "The money transfer does not exist"
+          }
+        },
+        "security" : [ {
+          "BankingAPIScopes" : [ "transfer:read", "transfer:admin" ]
+        } ]
+      },
+      "delete" : {
+        "tags" : [ "Transfers" ],
+        "summary" : "Cancel a money transfer",
+        "description" : "Only delayed or recurring money transfer can be canceled",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "Transfer's id",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "The money transfer has been deleted"
+          },
+          "404" : {
+            "description" : "The money transfer does not exist"
+          }
+        },
+        "security" : [ {
+          "BankingAPIScopes" : [ "transfer:delete", "transfer:admin" ]
+        } ]
+      }
+    }
+  },
+  "components" : {
+    "schemas" : {
+      "TransferRequest" : {
+        "required" : [ "amount", "destination", "source" ],
+        "properties" : {
+          "source" : {
+            "maxLength" : 15,
+            "minLength" : 15,
+            "pattern" : "^\\d{15}$",
+            "type" : "string",
+            "description" : "Source account number",
+            "example" : "000534115776675"
+          },
+          "destination" : {
+            "maxLength" : 15,
+            "minLength" : 15,
+            "pattern" : "^\\d{15}$",
+            "type" : "string",
+            "description" : "Destination account number",
+            "example" : "000567689879878"
+          },
+          "amount" : {
+            "minimum" : 0,
+            "exclusiveMinimum" : true,
+            "type" : "number",
+            "example" : 456.2
+          },
+          "date" : {
+            "type" : "string",
+            "description" : "Execution date for a delayed transfer\nor first execution date for a recurring one\n",
+            "format" : "date",
+            "example" : "2019-03-19"
+          },
+          "occurrences" : {
+            "maximum" : 100,
+            "minimum" : 2,
+            "type" : "integer",
+            "description" : "Number of times a recurring transfer will be executed\n",
+            "example" : 2
+          },
+          "frequency" : {
+            "type" : "string",
+            "description" : "Frequency of recurring transfer's execution",
+            "example" : "MONTHLY",
+            "enum" : [ "WEEKLY", "MONTHLY", "QUARTERLY", "YEARLY" ]
+          }
+        },
+        "description" : "A money transfer request"
+      },
+      "TransferResponse" : {
+        "allOf" : [ {
+          "required" : [ "id", "status", "type" ],
+          "properties" : {
+            "id" : {
+              "type" : "string",
+              "example" : "1611e71f-1bb2-412f-8c43-92b275a5c321"
+            },
+            "type" : {
+              "type" : "string",
+              "example" : "RECURRING",
+              "enum" : [ "IMMEDIATE", "DELAYED", "RECURRING" ]
+            },
+            "status" : {
+              "type" : "string",
+              "description" : "An immediate transfer is always `EXECUTED`, a delayed transfer can be `EXECUTED` or `PENDING` and a recurring one is always `PENDING`\n",
+              "example" : "PENDING",
+              "enum" : [ "EXECUTED", "PENDING" ]
+            },
+            "requestDate" : {
+              "type" : "string",
+              "example" : "2019-09-19"
+            }
+          }
+        }, {
+          "$ref" : "#/components/schemas/TransferRequest"
+        } ]
+      },
+      "TransferList" : {
+        "properties" : {
+          "items" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/TransferResponse"
+            }
+          }
+        }
+      },
+      "ConsumerError" : {
+        "required" : [ "errors" ],
+        "properties" : {
+          "errors" : {
+            "minItems" : 1,
+            "type" : "array",
+            "description" : "A list of errors providing detailed information about the problem",
+            "items" : {
+              "$ref" : "#/components/schemas/ConsumerError_errors"
+            }
+          }
+        }
+      },
+      "Account" : {
+        "properties" : {
+          "source" : {
+            "title" : "Source",
+            "type" : "number",
+            "description" : "The account source",
+            "example" : 46728215997
+          },
+          "balance" : {
+            "$ref" : "#/components/schemas/Amount"
+          }
+        }
+      },
+      "inline_response_200" : {
+        "required" : [ "properties" ],
+        "properties" : {
+          "items" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/Account"
+            }
+          }
+        }
+      },
+      "ConsumerError_errors" : {
+        "required" : [ "message", "source", "type" ],
+        "properties" : {
+          "source" : {
+            "type" : "string",
+            "description" : "the property source of the error",
+            "example" : "amount",
+            "enum" : [ "source", "destination", "amount", "date", "occurrences", "frequency" ]
+          },
+          "type" : {
+            "type" : "string",
+            "example" : "MANDATORY_PROPERTY",
+            "enum" : [ "MANDATORY_PROPERTY", "INVALID_FORMAT", "INVALID_VALUE", "INSUFFICIENT_BALANCE" ]
+          },
+          "message" : {
+            "type" : "string",
+            "description" : "a human-readable error message",
+            "example" : "The money transfer's amount must be provided"
+          }
+        }
+      },
+      "Amount" : {
+        "title" : "Amount",
+        "required" : [ "currency", "value" ],
+        "type" : "object",
+        "properties" : {
+          "value" : {
+            "type" : "number",
+            "description" : "Balance's value using the number of decimal places defined by ISO 4217",
+            "externalDocs" : {
+              "description" : "Decimal places table",
+              "url" : "https://www.currency-iso.org/en/home/tables/table-a1.html"
+            }
+          },
+          "currency" : {
+            "type" : "string",
+            "description" : "An ISO 4217 code",
+            "example" : "USD",
+            "externalDocs" : {
+              "url" : "https://www.iso.org/iso-4217-currency-codes.html"
+            }
+          }
+        },
+        "description" : "The balance in the account's default currency"
+      }
+    },
+    "securitySchemes" : {
+      "BankingAPIScopes" : {
+        "type" : "oauth2",
+        "flows" : {
+          "implicit" : {
+            "authorizationUrl" : "https://auth.bankingcompany.com/authorize",
+            "scopes" : {
+              "transfer:create" : "Create transfers",
+              "transfer:read" : "Read transfers",
+              "transfer:delete" : "Delete transfers",
+              "transfer:admin" : "Create, read, and delete transfers",
+              "beneficiary:create" : "Create beneficiaries",
+              "beneficiary:read" : "List beneficiaries",
+              "beneficiary:delete" : "delete beneficiaries",
+              "beneficiary:admin" : "Create, read, and delete beneficiaries",
+              "account:read" : "Read accounts",
+              "account:admin" : "Read accounts"
+            }
+          }
+        }
+      }
+    }
+  }
+}
