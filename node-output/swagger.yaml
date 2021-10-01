@@ -2,11 +2,11 @@
   "openapi" : "3.0.0",
   "info" : {
     "title" : "Sample Banking API",
-    "description" : "This is a sample banking API",
+    "description" : "This is a sample banking API 123",
     "version" : "1.0.1"
   },
   "servers" : [ {
-    "url" : "https://virtserver.swaggerhub.com/MConneely/Sample_Banking_API/1.0.0",
+    "url" : "https://virtserver.swaggerhub.com/MConneely/Sample_Banking_API/1.0.1",
     "description" : "SwaggerHub API Auto Mocking"
   } ],
   "tags" : [ {
