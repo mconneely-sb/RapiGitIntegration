@@ -1349,9 +1349,9 @@ NOTE: Check the Test Case transaction log after the execution of the test to vie
         <con:properties/>
       </con:breakPoints>
     </con:testCase>
-    <con:testCase id="dee8f9ca-c3e9-4bce-8e72-2a60afdd9e3c" discardOkResults="true" failOnError="false" failTestCaseOnErrors="true" keepSession="false" name="Test Case 1" searchProperties="true" timeout="0">
+    <con:testCase id="b400021a-c84f-4711-be8e-ca6c9e817d0d" discardOkResults="true" failOnError="false" failTestCaseOnErrors="true" keepSession="false" name="Test Case 1" searchProperties="true" timeout="0">
       <con:settings/>
-      <con:testStep type="groovy" name="Groovy Script" id="e86492ae-1a45-4b7f-a717-0c07533590ff">
+      <con:testStep type="groovy" name="Groovy Script" id="8a598534-b9d0-43db-b34a-3a69e264c612">
         <con:settings/>
         <con:config>
           <script>log.info("test")</script>
@@ -1406,9 +1406,6 @@ NOTE: Check the Test Case transaction log after the execution of the test to vie
       <con:dispatchStyle>SCRIPT</con:dispatchStyle>
       <con:dispatchConfig/>
       <con:dispatchPath>def queryString = mockRequest.getRequest().getQueryString()
-if (!queryString) {
-    return "Missing required query parameters"
-}
 
 String[] fields = queryString.split("&amp;");
 String[] kv;
@@ -1420,9 +1417,6 @@ for (int i = 0; i &lt; fields.length; ++i){
      params.put(kv[0], kv[1]); 
 }
 
-if (!params.containsKey("buystring")) {
-     return "Missing buystring parameter"
-}
 def buystring = URLDecoder.decode(params.get("buystring"), "UTF-8")
 
 if (buystring == "all") 
@@ -1547,9 +1541,6 @@ return "Search Response"</con:dispatchPath>
       <con:dispatchStyle>SCRIPT</con:dispatchStyle>
       <con:dispatchConfig/>
       <con:dispatchPath>def queryString = mockRequest.getRequest().getQueryString()
-if (!queryString) {
-    return "Missing required query parameters"
-}
 
 String[] fields = queryString.split("&amp;");
 String[] kv;
@@ -1604,9 +1595,6 @@ return "Ok Response"</con:dispatchPath>
       <con:dispatchStyle>SCRIPT</con:dispatchStyle>
       <con:dispatchConfig/>
       <con:dispatchPath>def queryString = mockRequest.getRequest().getQueryString()
-if (!queryString) {
-    return "Missing required query parameters"
-}
 
 String[] fields = queryString.split("&amp;");
 String[] kv;
@@ -1651,9 +1639,6 @@ return "Ok Response"</con:dispatchPath>
       <con:dispatchConfig/>
       <con:dispatchPath>import java.net.URLDecoder;
 def queryString = mockRequest.getRequest().getQueryString()
-if (!queryString) {
-    return "Missing required query parameters"
-}
 
 String[] fields = queryString.split("&amp;");
 String[] kv;
