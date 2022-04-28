@@ -757,7 +757,7 @@ the same ports on the virtual service.</con:description>
     <con:settings/>
     <con:savedRecentRuns>1</con:savedRecentRuns>
     <con:runType>SEQUENTIAL</con:runType>
-    <con:testCase id="c3fbf613-f789-4fe0-a4e5-1757eba3ccc2" discardOkResults="false" failOnError="true" failTestCaseOnErrors="true" keepSession="false" name="Simple Login Call" searchProperties="true" timeout="0">
+    <con:testCase id="c3fbf613-f789-4fe0-a4e5-1757eba3ccc2" discardOkResults="false" failOnError="true" failTestCaseOnErrors="true" keepSession="false" name="Simple Login Call" searchProperties="true" timeout="0" disabled="true">
       <con:description>Simple test can be used to show how easy it is to call a simple REST Service. You can have one or multiple REST endpoints that are not related to each other. This is commonly used when running integration tests.
 
 Steps:
@@ -855,7 +855,7 @@ NOTE: If you would like to run the Login step without as a standalone step pleas
         <con:properties/>
       </con:breakPoints>
     </con:testCase>
-    <con:testCase id="144505c6-b03d-43d1-8f24-71eb41db11e3" discardOkResults="false" failOnError="true" failTestCaseOnErrors="true" keepSession="false" name="Integration Test" searchProperties="true" timeout="0">
+    <con:testCase id="144505c6-b03d-43d1-8f24-71eb41db11e3" discardOkResults="false" failOnError="true" failTestCaseOnErrors="true" keepSession="false" name="Integration Test" searchProperties="true" timeout="0" disabled="true">
       <con:description>Integration tests are supposed to show how APIs work in a real world scenarios, integrating APIs together as a user would use an application in a workflow. In the following example we Login, Search for an Item, Buy the Item and then logout. We have strung these steps together
 with some of the tools easy to use feature (GET DATA: See Documentation) which allows you to easily pass values from a response to the next request.
 
@@ -1142,7 +1142,7 @@ NOTE: If you would like to run the Login step without as a standalone step pleas
         <con:properties/>
       </con:breakPoints>
     </con:testCase>
-    <con:testCase id="040f09d4-dbf2-4816-9383-1b0a6085e75a" discardOkResults="false" failOnError="true" failTestCaseOnErrors="true" keepSession="false" name="DataDriven REST Test" searchProperties="true" timeout="0" wsrmEnabled="false" wsrmVersion="1.0" wsrmAckTo="" amfAuthorisation="false" amfEndpoint="" amfLogin="" amfPassword="" zephyrTestName="" zephyrTestId="">
+    <con:testCase id="040f09d4-dbf2-4816-9383-1b0a6085e75a" discardOkResults="false" failOnError="true" failTestCaseOnErrors="true" keepSession="false" name="DataDriven REST Test" searchProperties="true" timeout="0" wsrmEnabled="false" wsrmVersion="1.0" wsrmAckTo="" amfAuthorisation="false" amfEndpoint="" amfLogin="" amfPassword="" zephyrTestName="" zephyrTestId="" disabled="true">
       <con:description>Datadriven test help test a scenario where the same or multiple APIs need to be tested with a large amount of data inputs, it can also be used to test a large dataset of expected results through assertions. These data inputs can be picked up from a Database, Excel spread sheet
 and many other data entities.
 
@@ -1348,6 +1348,17 @@ NOTE: Check the Test Case transaction log after the execution of the test to vie
         <con:status>NONE</con:status>
         <con:properties/>
       </con:breakPoints>
+    </con:testCase>
+    <con:testCase id="dee8f9ca-c3e9-4bce-8e72-2a60afdd9e3c" discardOkResults="true" failOnError="false" failTestCaseOnErrors="true" keepSession="false" name="Test Case 1" searchProperties="true" timeout="0">
+      <con:settings/>
+      <con:testStep type="groovy" name="Groovy Script" id="e86492ae-1a45-4b7f-a717-0c07533590ff">
+        <con:settings/>
+        <con:config>
+          <script>log.info("test")</script>
+        </con:config>
+      </con:testStep>
+      <con:properties/>
+      <con:reportParameters/>
     </con:testCase>
     <con:properties/>
     <con:reportParameters/>
