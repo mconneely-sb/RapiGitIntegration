@@ -34,7 +34,7 @@ NOTE: If you would like to run the Login step without as a standalone step pleas
         <con:assertion type="Valid HTTP Status Codes" id="54943923-c5d6-4a3d-a176-a7a20d56b664" name="Valid HTTP Status Codes">
           <con:settings/>
           <con:configuration>
-            <codes>200</codes>
+            <codes>500</codes>
           </con:configuration>
         </con:assertion>
         <con:assertion type="Response SLA Assertion" id="e2727ced-2a71-40d5-9800-cb2a910cb4c2" name="Response SLA" disabled="true">
